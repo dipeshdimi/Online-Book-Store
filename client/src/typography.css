@@ -1,0 +1,32 @@
+:root {
+    --font-size-130: 130px;
+    --font-size-24: 24px;
+    --font-size-16: 16px;
+    --font-size-14: 14px;
+    --font-size-12: 12px;
+    --font-size-10: 10px;
+}
+
+.font-size-130 {
+  font-size: var(--font-size-130);
+}
+
+.font-size-24 {
+  font-size: var(--font-size-24);
+}
+
+.font-size-16 {
+  font-size: var(--font-size-16);
+}
+
+.font-size-14 {
+  font-size: var(--font-size-14);
+}
+
+.font-size-12 {
+  font-size: var(--font-size-12);
+}
+
+.font-size-10 {
+  font-size: var(--font-size-10);
+}

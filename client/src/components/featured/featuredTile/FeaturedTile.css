@@ -1,0 +1,109 @@
+.featured-card {
+  display: flex;
+  align-items: center;
+  gap: 10%;
+  background-color: var(--subdued-background-blue-1);
+  padding: 0.5%;
+  padding-right: 3%;
+  border-radius: 30px;
+  height: 300px;
+  transition: transform 0.3s ease;
+}
+
+.featured-card:hover {
+  transform: scale(1.2);
+}
+
+.featured-book-img {
+  border-radius: 30px;
+  transform: rotate(-5deg) scale(1.2);
+  transition: transform 0.3s ease;
+}
+
+.featured-card:hover .featured-book-img {
+  transform: rotate(0deg);
+}
+
+.featured-card-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: fit-content;
+  max-width: 300px;
+  gap: 4px;
+}
+
+.featured-card-tags {
+  display: flex;
+  gap: 8px;
+}
+
+.featured-card-tag {
+  background-color: var(--subdued-background-blue-2);
+  color: var(--primary-blue);
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+.age-tag {
+  background-color: transparent;
+  border: 1px solid var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+.featured-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.featured-card-title {
+  font-weight: 600;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.amazon-icon {
+  height: 24px;
+  width: 24px;
+}
+
+.star-icon {
+  height: 16px;
+  width: 16px;
+  color: #ffaa00;
+}
+
+.user-icon {
+  height: 16px;
+  width: 16px;
+  color: var(--primary-blue);
+}
+
+.featured-wishlist-button {
+  opacity: 0;
+  display: none;
+  background-color: transparent;
+  color: var(--primary-blue);
+  border: 1px solid var(--primary-blue);
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: opacity 0.3s ease, display 0.3s ease;
+  gap: 4px;
+}
+
+.featured-card:hover .featured-wishlist-button {
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heart-icon {
+  background-color: transparent;
+}

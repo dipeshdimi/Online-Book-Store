@@ -1,0 +1,87 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px 20px;
+  width: 100%;
+  height: 10%;
+}
+
+.navbar-logo-search-container {
+  display: flex;
+  justify-content: space-between;
+  width: 38.4%;
+  gap: 5%;
+}
+
+.navbar-logo {
+  height: 10%;
+  margin-right: 10px;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1%;
+  background-color: var(--subdued-background-blue-1);
+  flex-grow: 1;
+  padding: 5px 10px;
+  border-radius: 4px;
+  color: var(--subdued-blue);
+}
+
+.search-wrapper:focus-within {
+  border: 1px solid var(--subdued-blue);
+}
+
+.navbar-search {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 100%;
+}
+
+.navbar-search::placeholder {
+  color: var(--subdued-blue);
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-link {
+  text-decoration: none;
+}
+
+.navbar-link-active {
+  color: var(--primary-blue);
+}
+
+.next-delivery {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.datepicker-label {
+    padding-right: 4px;
+}
+
+.datepicker-wrapper {
+    display: flex;
+    padding: 0 4px;
+}
+
+.datepicker-wrapper:focus-within {
+  border: 1px solid black;
+  border-radius: 2px;
+}
+
+.datepicker-input {
+  border: none;
+  outline: none;
+  width: 78px;
+}

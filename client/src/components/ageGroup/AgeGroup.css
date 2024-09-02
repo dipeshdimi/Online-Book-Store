@@ -1,0 +1,46 @@
+.age-group-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+  background: linear-gradient(to right, #e0f4ff, #f5e8ff);
+  border-radius: 12px;
+  position: relative;
+}
+
+.age-group-title {
+  position: absolute;
+  top: 4%;
+}
+
+.age-group-list {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  width: 100%;
+}
+
+.age-group-item {
+  display: flex;
+  align-items: center;
+}
+
+.age-groups {
+  display: flex;
+  gap: 5px;
+}
+
+.age-group-image {
+  transform: scale(1.1);
+  align-self: flex-end;
+}
+
+.age-group-label {
+  background-color: var(--background-white);
+  padding: 8px 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px var(--box-shadow-black);
+  font-weight: 500;
+  text-align: center;
+  outline: none;
+  border: none;
+}

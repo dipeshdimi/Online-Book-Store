@@ -1,0 +1,14 @@
+:root {
+  --primary-blue: rgba(59, 114, 255, 1);
+  --background-white: #ffffff;
+
+  --text-black: rgba(0, 0, 0, 1);
+  --box-shadow-black: rgba(0, 0, 0, 0.1);
+  --border-black: rgba(0, 0, 0, 0.12);
+  
+  --text-shadow-white: rgba(255, 255, 255, 1);
+
+  --subdued-blue: rgba(129, 145, 186, 1);
+  --subdued-background-blue-1: rgba(214, 227, 242, 0.8);
+  --subdued-background-blue-2: rgba(59, 114, 255, 0.12);
+}

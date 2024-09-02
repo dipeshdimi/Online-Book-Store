@@ -1,0 +1,108 @@
+.book-slider {
+  padding-left: 3%;
+}
+
+.book-list {
+  display: flex;
+  align-items: center;
+  gap: 70px;
+  padding: 20px 50px;
+  overflow-x: auto;
+}
+
+.book-item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 1%;
+  transform: scale(1);
+  background-color: transparent;
+  transition: transform 0.2s ease-out, background-color 0.2s ease-out;
+  border-radius: 12px;
+  transform-origin: right; /* for scalig right to left */
+}
+
+.book-item:hover {
+  transform: scale(1.1);
+  background-color: var(--subdued-background-blue-1);
+}
+
+
+.book-image {
+  width: 150px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.book-number {
+  font-family: Jua;
+  position: absolute;
+  bottom: 25%;
+  left: -25%;
+  font-weight: 600;
+  color: var(--primary-blue);
+  text-shadow: 3px 3px var(--text-shadow-white),
+               -3px -3px var(--text-shadow-white);
+  transform: scale(1);
+  transition: transform 0.3s ease-out, left 0.3s ease-out;
+}
+
+book-number:hover {
+  bottom: 0;
+}
+
+.book-item:hover .book-number {
+  transform: scale(0);
+  left: 0%;
+  z-index: -1;
+}
+
+
+.book-details {
+  margin-top: 10px;
+  width: min-content;
+}
+
+.amazon-icon {
+  height: 24px;
+  width: 24px;
+}
+
+.star-icon {
+  height: 16px;
+  width: 16px;
+  color: #ffaa00;
+}
+
+.user-icon {
+  height: 16px;
+  width: 16px;
+  color: var(--primary-blue);
+}
+
+.gallery-wishlist-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  background-color: transparent;
+  color: var(--primary-blue);
+  border: 1px solid var(--primary-blue);
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: opacity 0.3s ease, visibilty 0.3s ease;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.book-item:hover .gallery-wishlist-button {
+  opacity: 1;
+  visibility: visible;
+}
+
+.heart-icon {
+  background-color: transparent;
+}
