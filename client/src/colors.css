@@ -11,4 +11,8 @@
   --subdued-blue: rgba(129, 145, 186, 1);
   --subdued-background-blue-1: rgba(214, 227, 242, 0.8);
   --subdued-background-blue-2: rgba(59, 114, 255, 0.12);
+
+  --error-text-red: rgba(221, 48, 66, 1);
+  --error-background-red: rgba(248, 215, 218, 1);
+  --error-border-red: rgba(236, 173, 179, 1);
 }
