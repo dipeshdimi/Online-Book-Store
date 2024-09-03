@@ -13,7 +13,7 @@ export default function Navbar() {
   return (
     <div className="navbar font-size-14">
       <div className='navbar-logo-search-container'>
-        <img src="/logo.png" alt="Logo" className="navbar-logo" />
+        <img src="/logo-dark.png" alt="Logo" className="navbar-logo" />
         <div className='search-wrapper'>
           <FaSearch />
           <input

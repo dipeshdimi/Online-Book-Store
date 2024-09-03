@@ -1,8 +1,9 @@
 :root {
   --primary-blue: rgba(59, 114, 255, 1);
-  --background-white: #ffffff;
+  --white: #ffffff;
+  --subdued-white: rgba(255, 255, 255, 0.7);
 
-  --text-black: rgba(0, 0, 0, 1);
+  --black: rgba(0, 0, 0, 1);
   --box-shadow-black: rgba(0, 0, 0, 0.1);
   --border-black: rgba(0, 0, 0, 0.12);
   

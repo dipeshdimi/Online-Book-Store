@@ -1,12 +1,12 @@
 import BookGallery from '../bookGallery/BookGallery';
 import './Books.css';
 
-function App() {
+export default function Books() {
   const BASE_API_URL = 'http://localhost:5000/api/sheets/';
   return (
-    <div className="App">
+    <div className="Books">
       <BookGallery
-        sectionTitle="Popular Books"
+        sectionTitle="Top 10 Books"
         apiEndpoint={BASE_API_URL+"top-books"}
       />
       <BookGallery
@@ -20,5 +20,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
