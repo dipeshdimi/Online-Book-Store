@@ -37,21 +37,57 @@ async function getBooks(query, sortField, sortOrder, limit = 0, skip = 0) {
   const database = await connectToMongo();
   const collection = database.collection("books");
 
-  // Start with the query and sort the results
-  let cursor = collection.find(query).sort({ [sortField]: sortOrder });
+  let cursor;
 
-  // Apply limit and skip if provided
-  if (limit > 0) {
-    cursor = cursor.limit(limit);
-  }
-  if (skip > 0) {
-    cursor = cursor.skip(skip);
+  // Handle the distinct series aggregation
+  if (sortField === "seriesName") {
+    cursor = collection.aggregate([
+      {
+        $match: query
+      },
+      {
+        $group: {
+          _id: "$seriesName",
+          numberOfBooks: { $sum: 1 },
+          bookImage: {
+            $first: {
+              $cond: [
+                { $eq: ["$bookNumber", 1] },
+                "$mainImage",
+                "$$REMOVE"
+              ]
+            }
+          }
+        }
+      },
+      {
+        $sort: { _id: sortOrder } // Sort by seriesName if specified
+      },
+      {
+        $skip: skip
+      },
+      {
+        $limit: limit
+      },
+      {
+        $project: {
+          _id: 0,
+          seriesName: "$_id",
+          numberOfBooks: 1,
+          bookImage: { $ifNull: ["$bookImage", null] } // Ensure bookImage is null if no bookNumber=1
+        }
+      }
+    ]);
+  } else {
+    cursor = collection.find(query).sort({ [sortField]: sortOrder });
+
+    if (limit > 0) cursor = cursor.limit(limit);
+    if (skip > 0) cursor = cursor.skip(skip);
+
+    cursor = cursor.project({ minAge: 1, maxAge: 1, bookName: 1,seriesName: 1, mainImage: 1, aRating: 1, aReviews: 1 });
   }
 
-  // Project specific fields and convert to array
-  return cursor
-    .project({ bookName: 1, mainImage: 1, aRating: 1, aReviews: 1 })
-    .toArray();
+  return cursor.toArray();
 }
 
 module.exports = { insertData, getBooks, clearCollection };

@@ -1,12 +1,14 @@
 import FeaturedTile from './featuredTile/FeaturedTile';
 import './Featured.css';
 
-export default function Featured() {
+export default function Featured({ selectedAgeGroup }) {
   return (
-    <div className='featured'>
-      <FeaturedTile />
-      <FeaturedTile />
-      {/* <FeaturedTile /> */}
-    </div>
+    selectedAgeGroup.maxAge === 100 ? (
+      <div className='featured'>
+        <FeaturedTile />
+        <FeaturedTile />
+        {/* <FeaturedTile /> */}
+      </div>
+    ) : null
   );
 }

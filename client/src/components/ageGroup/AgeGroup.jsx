@@ -1,6 +1,13 @@
+import { useState } from 'react';
+
+import { MdKeyboardArrowLeft } from "react-icons/md";
+
 import './AgeGroup.css';
 
-export default function AgeGroupComponent() {
+export default function AgeGroup({ onAgeGroupChange }) {
+  const [activeButton, setActiveButton] = useState(null);
+  const [ageGroupView, setAgeGroupView] = useState(false);
+
   const ageGroups = [
     ['/child-1.png'],
     ['0-1 years', '1-3 years'],
@@ -11,22 +18,49 @@ export default function AgeGroupComponent() {
     ['/child-4.png']
   ];
 
+  const handleAgeGroupClick = (ageGroup, index) => {
+    let minAge = ageGroup.split('-')[0], maxAge = 100;
+    if (minAge === '12+') {
+      minAge = 12;
+    } else {
+      minAge = Number(minAge);
+      maxAge = Number(ageGroup.split('-')[1]);
+    }
+
+    setActiveButton(index);
+    setAgeGroupView(true);
+    onAgeGroupChange({ minAge, maxAge });
+  };
+
+  const handleBackClick = () => {
+    onAgeGroupChange({minAge: 0, maxAge: 100});
+    setAgeGroupView(false);
+    setActiveButton(false);
+  }
+
+
   return (
+    !ageGroupView ? 
     <div className="age-group-container">
       <h2 className='age-group-title font-size-24'>Browse by Age Group</h2>
       <div className="age-group-list">
         {ageGroups.map((group, index) => (
-          <div key={group[0]} className="age-group-item">
-
+          <div key={index} className="age-group-item">
             {index % 2 === 0 ?
               (<img src={group[0]} alt='Child Image' className="age-group-image" />)
               :
               (<div className='age-groups'>
-                <button className="age-group-label">
+                <button 
+                  className={`age-group-label ${activeButton === index * 2 ? 'active' : ''}`}
+                  onClick={() => handleAgeGroupClick(group[0], index * 2)}
+                >
                   <h3 className='font-size-24'>{group[0].split(' ')[0]}</h3>
                   <p className='font-size-16'>{group[0].split(' ')[1]}</p>
                 </button>
-                <button className="age-group-label">
+                <button 
+                  className={`age-group-label ${activeButton === index * 2 + 1 ? 'active' : ''}`}
+                  onClick={() => handleAgeGroupClick(group[1], index * 2 + 1)}
+                >
                   <h3 className='font-size-24'>{group[1].split(' ')[0]}</h3>
                   <p className='font-size-16'>{group[1].split(' ')[1]}</p>
                 </button>
@@ -35,6 +69,35 @@ export default function AgeGroupComponent() {
           </div>
         ))}
       </div>
+    </div>
+    :
+    <div className="age-group-view">
+      <div className='age-group-view-heading'>
+        <MdKeyboardArrowLeft className='font-size-24' onClick={handleBackClick}/>
+        <h2 className='font-size-24'>Browse by Age Group</h2>
+      </div>
+      {ageGroups.map((group, index) => (
+          <>
+            {index % 2 !== 0 &&
+              <>
+                <button 
+                  className={`age-group-label ${activeButton === index * 2 ? 'active' : ''}`}
+                  onClick={() => handleAgeGroupClick(group[0], index * 2)}
+                >
+                  <h3 className='font-size-24'>{group[0].split(' ')[0]}</h3>
+                  <p className='font-size-16'>{group[0].split(' ')[1]}</p>
+                </button>
+                <button 
+                  className={`age-group-label ${activeButton === index * 2 + 1 ? 'active' : ''}`}
+                  onClick={() => handleAgeGroupClick(group[1], index * 2 + 1)}
+                >
+                  <h3 className='font-size-24'>{group[1].split(' ')[0]}</h3>
+                  <p className='font-size-16'>{group[1].split(' ')[1]}</p>
+                </button>
+              </>
+            }
+          </>
+        ))}
     </div>
   );
 }

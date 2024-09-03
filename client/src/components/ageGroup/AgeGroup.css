@@ -44,3 +44,25 @@
   outline: none;
   border: none;
 }
+
+.age-group-label.active {
+  color: var(--primary-blue);
+  background-color: var(--subdued-background-blue-1);
+  border: 1px solid var(--subdued-blue);
+  box-shadow: none;
+}
+
+.age-group-view {
+  padding-left: 3%;
+}
+
+.age-group-view button {
+  margin-right: 10px;
+}
+
+.age-group-view-heading {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+

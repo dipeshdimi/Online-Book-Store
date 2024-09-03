@@ -6,7 +6,7 @@ import './FeaturedTile.css';
 export default function FeaturedTile() {
   return (
     <div className="featured-card">
-      <img src='/sample-book.png' alt='Book' className='featured-book-img' />
+      <img src='/sample-book.jpg' alt='Book' className='featured-book-img' />
       <div className='featured-card-info'>
         <div className="featured-card-tags font-size-12">
           <span className="featured-card-tag">Action-packed</span>

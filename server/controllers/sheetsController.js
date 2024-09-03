@@ -3,7 +3,6 @@ const { insertData, getBooks, clearCollection } = require("../models/mongoModel"
 
 // Function to parse date strings in the format "21 January 2008"
 function parseDate(dateString) {
-  // The date format is assumed to be "21 January 2008"
   const [day, monthName, year] = dateString.split(' ');
   const month = new Date(Date.parse(monthName + " 1, 2021")).getMonth(); // Get month index
   return new Date(year, month, day);
@@ -76,7 +75,15 @@ async function fetchAndStoreData(req, res) {
 async function getTopBooks(req, res) {
   try {
     const limit = parseInt(req.query.limit, 10) || 10;
-    const books = await getBooks({aReviews: { $gte: 1000 }}, "aRating", -1, limit);
+    const minAge = parseInt(req.query.minAge, 10) || null;
+    const maxAge = parseInt(req.query.maxAge, 10) || null;
+
+    // Build the query
+    const query = { aReviews: { $gte: 1000 } };
+    if (minAge !== null) query.minAge = { $gte: minAge };
+    if (maxAge !== null) query.maxAge = { $lte: maxAge };
+
+    const books = await getBooks(query, "aRating", -1, limit);
     res.json(books);
   } catch (error) {
     console.error("Error:", error);
@@ -89,8 +96,15 @@ async function getBestSellers(req, res) {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 20;
     const skip = (page - 1) * limit;
+    const minAge = parseInt(req.query.minAge, 10) || null;
+    const maxAge = parseInt(req.query.maxAge, 10) || null;
 
-    const books = await getBooks({}, "aReviews", -1, limit, skip); // Sort by aReviews descending
+    // Build the query
+    const query = {};
+    if (minAge !== null) query.minAge = { $gte: minAge };
+    if (maxAge !== null) query.maxAge = { $lte: maxAge };
+
+    const books = await getBooks(query, "aReviews", -1, limit, skip);
     res.json(books);
   } catch (error) {
     console.error("Error:", error);
@@ -103,8 +117,15 @@ async function getNewArrivals(req, res) {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 20;
     const skip = (page - 1) * limit;
+    const minAge = parseInt(req.query.minAge, 10) || null;
+    const maxAge = parseInt(req.query.maxAge, 10) || null;
 
-    const books = await getBooks({}, "dateOfPublication", -1, limit, skip);
+    // Build the query
+    const query = {};
+    if (minAge !== null) query.minAge = { $gte: minAge };
+    if (maxAge !== null) query.maxAge = { $lte: maxAge };
+
+    const books = await getBooks(query, "dateOfPublication", -1, limit, skip);
     res.json(books);
   } catch (error) {
     console.error("Error:", error);
@@ -112,9 +133,47 @@ async function getNewArrivals(req, res) {
   }
 }
 
+async function getBooksBySeries(req, res) {
+  try {
+    const seriesName = req.query.seriesName;
+    
+    if (!seriesName) {
+      res.status(400).send("Series name is required.");
+      return;
+    }
+
+    const books = await getBooks({ seriesName }); // Fetch books by series
+    res.json(books);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Error fetching books by series");
+  }
+}
+
+// Fetch distinct series by popularity
+async function getDistinctSeriesByPopularity(req, res) {
+  try {
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const skip = (page - 1) * limit;
+
+    // Aggregate distinct series and sort by popularity
+    const series = await getBooks({}, "popularityScore", -1, limit, skip);
+
+    res.json(series);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Error fetching distinct series by popularity");
+  }
+}
+
+
+
 module.exports = {
   fetchAndStoreData,
   getTopBooks,
   getBestSellers,
   getNewArrivals,
+  getBooksBySeries,
+  getDistinctSeriesByPopularity
 };

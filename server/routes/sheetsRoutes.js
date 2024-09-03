@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { fetchAndStoreData, getTopBooks, getBestSellers, getNewArrivals } = require("../controllers/sheetsController");
+const { fetchAndStoreData, getTopBooks, getBestSellers, getNewArrivals, getBooksBySeries, getDistinctSeriesByPopularity } = require("../controllers/sheetsController");
 
 // Route to fetch and store data from Google Sheets
 router.get("/fetch", fetchAndStoreData);
@@ -13,5 +13,10 @@ router.get("/best-sellers", getBestSellers);
 
 // Route to get new arrivals by DOP
 router.get("/new-arrivals", getNewArrivals);
+
+// Route to get new arrivals by Series
+router.get("/series-books", getBooksBySeries);
+
+router.get('/popular-series', getDistinctSeriesByPopularity);
 
 module.exports = router;
