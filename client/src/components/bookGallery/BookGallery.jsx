@@ -15,7 +15,7 @@ export default function BookGallery({ sectionTitle, apiEndpoint, showSeriesBooks
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const limit = 20; // Number of items per page
-  const bookListRef = useRef(null); // Reference for the book list element
+  const bookListRef = useRef(null);
 
   // Initial fetch logic
   useEffect(() => {
@@ -33,13 +33,11 @@ export default function BookGallery({ sectionTitle, apiEndpoint, showSeriesBooks
         const response = await axios.get(endpoint);
 
         if (sectionTitle === 'Top 10 Books' || sectionTitle==='') {
-          // setBooks(response.data);
           setBooks(response.data);
         } else {
-          // setBooks(response.data);
           setBooks(response.data);
-          setPage(2); // Start from the next page for further fetches
-          setHasMore(response.data.length === limit); // Check if more books are available
+          setPage(2);
+          setHasMore(response.data.length === limit);
         }
       } catch (err) {
         setError(err);
@@ -49,11 +47,12 @@ export default function BookGallery({ sectionTitle, apiEndpoint, showSeriesBooks
     };
 
     fetchBooks();
-  }, [apiEndpoint, sectionTitle, ageFilter]); // Run this effect when apiEndpoint or sectionTitle changes
+  }, [apiEndpoint, sectionTitle, ageFilter, showSeriesBooks]);
 
-  // Pagination fetch for loading more books (only for non-"Top 10 Books" sections)
+
+  // Lazy Loading
   useEffect(() => {
-    if (page <= 1 || !hasMore || sectionTitle === 'Top 10 Books' || sectionTitle==='') return; // Prevent fetching if on the first page or no more books
+    if (page <= 1 || !hasMore || sectionTitle === 'Top 10 Books' || sectionTitle==='') return;
 
     const fetchMoreBooks = async () => {
       setLoading(true);
@@ -62,9 +61,9 @@ export default function BookGallery({ sectionTitle, apiEndpoint, showSeriesBooks
 
         if (response.data.length > 0) {
           setBooks(prevBooks => [...prevBooks, ...response.data]);
-          setHasMore(response.data.length === limit); // Check if more books are available
+          setHasMore(response.data.length === limit);
         } else {
-          setHasMore(false); // If no data is returned, stop fetching
+          setHasMore(false);
         }
       } catch (err) {
         setError(err);
@@ -74,16 +73,16 @@ export default function BookGallery({ sectionTitle, apiEndpoint, showSeriesBooks
     };
 
     fetchMoreBooks();
-  }, [page, apiEndpoint, sectionTitle, ageFilter]); // Only run this when the page changes and sectionTitle is not 'Top 10 Books'
+  }, [page, apiEndpoint, sectionTitle, ageFilter, hasMore]);
 
-  // Scroll event listener for horizontal scrolling (only for non-"Top 10 Books" sections)
+  // Scroll event listener
   useEffect(() => {
-    if (sectionTitle === 'Top 10 Books' || sectionTitle==='') return; // Skip scroll event listener for 'Top 10 Books'
+    if (sectionTitle === 'Top 10 Books' || sectionTitle==='') return;
 
     const handleScroll = () => {
       const element = bookListRef.current;
 
-      // Adding a small tolerance (e.g., 1px) to handle floating-point precision issues
+      // Tolerance
       if (element.scrollWidth - element.scrollLeft <= element.clientWidth + 1 && !loading && hasMore) {
         setPage(prevPage => prevPage + 1);
       }
@@ -93,12 +92,12 @@ export default function BookGallery({ sectionTitle, apiEndpoint, showSeriesBooks
     bookListElement.addEventListener('scroll', handleScroll);
 
     return () => bookListElement.removeEventListener('scroll', handleScroll);
-  }, [loading, hasMore, sectionTitle]); // Only run this when the page changes and sectionTitle is not 'Top 10 Books'
+  }, [loading, hasMore, sectionTitle]);
 
   if (error) return <div className="error">Error: {error.message}</div>;
 
   return (
-    <div className='book-slider' style={type === 'series' ? { color: 'white' } : {}}>
+    <div className='book-slider'>
       <h3>{sectionTitle}</h3>
       <div className="book-list" ref={bookListRef}>
         {books.map((book, index) => (
@@ -116,7 +115,7 @@ export default function BookGallery({ sectionTitle, apiEndpoint, showSeriesBooks
                   <span>{book.aReviews}</span>
                 </div>
                 :
-                <span className='font-size-14'>{book.numberOfBooks}</span>
+                <span className='font-size-14'>{book.numberOfBooks} books</span>
               }
             </div>
             {type === 'books' &&
@@ -127,8 +126,8 @@ export default function BookGallery({ sectionTitle, apiEndpoint, showSeriesBooks
             }
           </div>
         ))}
+        {loading && <div className="loading">Loading...</div>}
       </div>
-      {/* {loading && <div className="loading">Loading...</div>} */}
       {!hasMore && sectionTitle !== 'Top 10 Books' && <div className="no-more-data">No more books to display.</div>}
     </div>
   );
@@ -137,4 +136,11 @@ export default function BookGallery({ sectionTitle, apiEndpoint, showSeriesBooks
 BookGallery.propTypes = {
   sectionTitle: PropTypes.string.isRequired,
   apiEndpoint: PropTypes.string.isRequired,
+  showSeriesBooks: PropTypes.string,
+  ageFilter: PropTypes.shape({
+    minAge: PropTypes.number.isRequired,
+    maxAge: PropTypes.number.isRequired
+  }).isRequired,
+  type: PropTypes.oneOf(['books', 'series']),
+  setShowSeriesBooks: PropTypes.func
 };

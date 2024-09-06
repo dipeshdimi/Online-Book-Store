@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import { MdKeyboardArrowLeft } from "react-icons/md";
 
@@ -101,3 +102,7 @@ export default function AgeGroup({ onAgeGroupChange }) {
     </div>
   );
 }
+
+AgeGroup.propTypes = {
+  onAgeGroupChange: PropTypes.func.isRequired
+};

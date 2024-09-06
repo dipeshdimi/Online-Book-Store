@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import BookGallery from '../bookGallery/BookGallery';
 import './Books.css';
@@ -54,3 +55,10 @@ export default function Books({ selectedAgeGroup }) {
     </div>
   );
 }
+
+Books.propTypes = {
+  selectedAgeGroup: PropTypes.shape({
+    minAge: PropTypes.number.isRequired,
+    maxAge: PropTypes.number.isRequired
+  }).isRequired
+};
